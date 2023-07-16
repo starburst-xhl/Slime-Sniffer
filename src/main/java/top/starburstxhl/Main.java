@@ -47,7 +47,7 @@ public class Main {
                     }
                 }
                 if(sum>35){
-                    rankings.add(new Ranking(i,j,sum));
+                    rankings.add(new Ranking(i + 8,j + 8,sum));
                 }
             }
         }
