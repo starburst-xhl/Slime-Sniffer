@@ -30,6 +30,6 @@ public class Ranking implements Comparable<Ranking>{
 
     @Override
     public String toString() {
-        return String.format("xp:%6d  zp:%6d  sum:%6d",xp,zp,sum);
+        return String.format("%16d%16d%20d",xp,zp,sum);
     }
 }

@@ -51,9 +51,16 @@ public class Main {
                 }
             }
         }
-        Collections.sort(rankings);
-        for (Ranking ranking : rankings) {
-            System.out.println(ranking);
+        if (rankings.isEmpty()){
+            System.out.println("None of the region has more than 35 slime chunks!");
+        }else {
+            Collections.sort(rankings);
+            System.out.println("-------------------Ranking of the regions-------------------");
+            System.out.printf("%8s%16s%16s%20s\n","ranking","xPosition","zPosition","total slime chunks");
+            for (Ranking ranking : rankings) {
+                System.out.printf("%8d",rankings.indexOf(ranking) + 1);
+                System.out.println(ranking);
+            }
         }
     }
 }
