@@ -5,7 +5,7 @@ A simple Java program for finding the 17 by 17 region which has as many slime ch
 
 这个程序的原理是按圆形匹配指定区域内的史莱姆区块，并找到史莱姆区块最多的圆形区域。这样你就可以在这个区域内建造你的史莱姆农场，收集大量的史莱姆球。我参考了minecraft Wiki的源代码，感谢他们提供了史莱姆区块的生成算法。
 
-使用方法很简单，只需要修改源代码中的x和z两个变量，以修改查找范围（不要超过2000，否则会影响效率），然后运行Main类即可。程序会输出圆形区域的中心坐标，以及该区域内的史莱姆区块数量。你可以根据这些信息在游戏中找到对应的位置，并开始建造你的史莱姆农场。
+使用方法很简单，只需要运行Main类，并输入你的种子和x、z两个值，以修改查找范围（不要超过2000，否则会影响效率），然后。程序会输出圆形区域的中心坐标，以及该区域内的史莱姆区块数量。你可以根据这些信息在游戏中找到对应的位置，并开始建造你的史莱姆农场。
 
 希望你喜欢这个程序，如果你有任何建议或反馈，请联系我。谢谢！
 
@@ -13,7 +13,7 @@ This is the README file for my "Minecraft Void Realm Slime Chunk Helper", a smal
 
 The principle of this program is to match the slime chunks in a specified area by a circle, and find the circular area with the most slime chunks. This way you can build your slime farm in this area, and collect a lot of slime balls. I referred to the source code of minecraft Wiki, and I thank them for providing the generation algorithm of slime chunks.
 
-The usage is very simple, you just need to modify the x and z variables in the source code, to change the search range (do not exceed 2000, otherwise it will affect the efficiency), and then run the Main class. The program will output the center coordinates, as well as the number of slime chunks in that area. You can use this information to find the corresponding location in the game, and start building your slime farm.
+The usage is very simple, you just need to run the Main class,then imnput your seed,the x and z in order to change the search range (do not exceed 2000, otherwise it will affect the efficiency). The program will output the center coordinates, as well as the number of slime chunks in that area. You can use this information to find the corresponding location in the game, and start building your slime farm.
 
 I hope you like this program, if you have any suggestions or feedback, please contact me. Thank you!
 
