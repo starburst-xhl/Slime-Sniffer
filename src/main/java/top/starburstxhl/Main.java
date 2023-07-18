@@ -2,14 +2,18 @@ package top.starburstxhl;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.Scanner;
 
 
 public class Main {
     public static void main(String[] args) {
-        long seed = -3248040441770110058L;
-        int x = 1250;
-        int z = 1250;
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Input Your Seed: ");
+        long seed = scanner.nextLong();
+        System.out.print("Input Your xPosition: ");
+        int x = scanner.nextInt();
+        System.out.print("Input Your zPosition: ");
+        int z = scanner.nextInt();
         ChunkList chunkList = new ChunkList(-x,x,-z,z);
         for(int i = -x; i <= x; i++){
             for (int j = -z; j <= z; j++){
@@ -56,7 +60,7 @@ public class Main {
         }else {
             Collections.sort(rankings);
             System.out.println("-------------------Ranking of the regions-------------------");
-            System.out.printf("%8s%16s%16s%20s\n","ranking","xPosition","zPosition","total slime chunks");
+            System.out.printf("   %8s%16s%16s%20s\n","ranking","xPosition","zPosition","total slime chunks");
             for (Ranking ranking : rankings) {
                 System.out.printf("%8d",rankings.indexOf(ranking) + 1);
                 System.out.println(ranking);
