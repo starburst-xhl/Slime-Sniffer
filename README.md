@@ -1,5 +1,5 @@
 # slime-chunk-finder-for-xhl
-A simple Java program for finding the 17 by 17 region which has as many slime chunks as possible.
+A simple Java program for finding the round mob-spawnable region which has as many slime chunks as possible.
 
 这是我的“Minecraft空置域史莱姆区块助手”的自述文件，它是一个用Java编写的小程序，可以帮助你在空置域中找到最佳的史莱姆区块。这是一个初级版本，功能有限，但我会不断改进和更新。
 
