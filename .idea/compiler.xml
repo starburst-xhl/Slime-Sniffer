@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="slime-chunk-finder-for-xhl" />
         <module name="slime-chunk-finder-for-xhl-main" />
         <module name="SlimeChunkFinderForXHL" />
       </profile>
