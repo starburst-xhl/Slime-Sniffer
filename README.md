@@ -19,13 +19,29 @@ You should install Java previusly(Probably you have already installed java in or
 ```
 java -jar ./SlimeChunkFinderForXHL.jar
 ```
-Input your seed and search range, the program will output the ranking of detected regions.
-
+Input your seed and search range, the program will output the ranking of detected regions.Note that the output is the block coordinates of the center of the region (the actual coordinates need to be multiplied by 16).
+```
+Input Your Seed: 3425
+Input Your xPosition: 1000
+Input Your zPosition: 1000
+-------------------Ranking of the regions-------------------
+    ranking       xPosition       zPosition  total slime chunks
+       1            -709            -474                  41
+       2            -711            -474                  40
+       3             682             -12                  39
+       4            -711            -475                  38
+       5            -711            -473                  38
+       6            -710            -475                  38
+...
+```
 ## Problem
 
 The program couldn't exclude deep dark biome, please check beforehand.
 
+In order to reduce outputs,the program will only output the region whitch contains more than 35 slime chunks.
 
-I hope you like this program, if you have any suggestions or feedback, please contact me. Thank you!
+The program supports game version 1.18+.
+
+### I hope you like this program, if you have any suggestions or feedback, please contact me. Thank you!
 
 
