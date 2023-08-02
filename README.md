@@ -4,9 +4,9 @@
 
 ## Introduction
 
-This is the README file for my "Minecraft Void Realm Slime Chunk Helper", a simple Java program for finding the round mob-spawnable region which has as many slime chunks as possible. This is a preliminary version, with limited functionality, but I will keep improving and updating it.
+This is the README file for a simple Java program for finding the round mob-spawnable region which has as many slime chunks as possible. This is a preliminary version, with limited functionality, but I will keep improving and updating it.
 
-## What is this program about to do
+## Principle
 
 The principle of this program is to match the slime chunks in a specified area by a circle, and find the circular area with the most slime chunks. This way you can build your slime farm in this area, and collect a lot of slime balls. I referred to the source code of minecraft Wiki, and I thank them for providing the generation algorithm of slime chunks. The image below shows the match pattern, the black squares indicate chunks that will be matched, while the other squares will be ignored.
 
