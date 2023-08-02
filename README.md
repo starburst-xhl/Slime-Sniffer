@@ -2,7 +2,7 @@
 
 **English** | [中文](https://github.com/starburst-xhl/slime-chunk-finder-for-xhl/blob/main/README_zh-cn.md)
 
-## Simple introduction
+## Introduction
 
 This is the README file for my "Minecraft Void Realm Slime Chunk Helper", a simple Java program for finding the round mob-spawnable region which has as many slime chunks as possible. This is a preliminary version, with limited functionality, but I will keep improving and updating it.
 
