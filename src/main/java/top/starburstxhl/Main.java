@@ -13,17 +13,19 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Input Your Seed: ");
         long seed = scanner.nextLong();
-        System.out.print("Input Your xRange: ");
+        System.out.print("Input Your xRange(<4000): ");
         int x = scanner.nextInt();
-        System.out.print("Input Your zRange: ");
+        System.out.print("Input Your zRange(<4000): ");
         int z = scanner.nextInt();
+        System.out.print("Output threshold: ");
+        int threshold = scanner.nextInt();
         ChunkList chunkList = new ChunkList(-x,x,-z,z);
         for(int i = -x; i <= x; i++){
             for (int j = -z; j <= z; j++){
                 chunkList.setChunks(i,j,CheckSlimeChunk.isSlimeChunk(seed,i,j));
             }
         }
-        Boolean[][] mat = new Boolean[][]{
+        final Boolean[][] mat = new Boolean[][]{
                 {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false},
                 {false,false,false,false,false,false,true ,true ,true ,true ,true ,false,false,false,false,false,false},
                 {false,false,false,false,true ,true ,true ,true ,true ,true ,true ,true ,true ,false,false,false,false},
@@ -53,7 +55,7 @@ public class Main {
                         }
                     }
                 }
-                if(sum>35){
+                if(sum>threshold){
                     rankings.add(new Ranking(i + 8,j + 8,sum));
                 }
             }
