@@ -10,7 +10,12 @@ import androidx.compose.runtime.mutableStateOf
 
 @Composable
 @Preview
-fun numberInput(value: Int? = null, label: String, onValueChange: (Int?) -> Unit = {}, onUnfocused: (Int) -> Unit = {}) {
+fun numberInput(
+    value: Int? = null,
+    label: String,
+    onValueChange: (Int?) -> Unit = {},
+    onUnfocused: (Int) -> Int = {0}
+) {
     var v by remember { mutableStateOf(value?.toString() ?: "") }
     myTextField(
         label = label,
@@ -29,12 +34,12 @@ fun numberInput(value: Int? = null, label: String, onValueChange: (Int?) -> Unit
         },
         onFocusChanged = {
             if (!it) {
-                if (v.isEmpty()) {
-                    onUnfocused(0)
+                v = if (v.isEmpty()) {
+                    onUnfocused(0).toString()
                 } else if (v.toIntOrNull() == null) {
-                    onUnfocused(0)
+                    onUnfocused(0).toString()
                 } else {
-                    onUnfocused(v.toInt())
+                    onUnfocused(v.toInt()).toString()
                 }
             }
         }
@@ -43,7 +48,12 @@ fun numberInput(value: Int? = null, label: String, onValueChange: (Int?) -> Unit
 
 @Composable
 @Preview
-fun longNumberInput(value: Int? = null, label: String, onValueChange: (Long?) -> Unit = {}, onUnfocused: (Long) -> Unit = {}) {
+fun longNumberInput(
+    value: Long? = null,
+    label: String,
+    onValueChange: (Long?) -> Unit = {},
+    onUnfocused: (Long) -> Long = {0L}
+) {
     var v by remember { mutableStateOf(value?.toString() ?: "") }
     myTextField(
         label = label,
@@ -62,12 +72,12 @@ fun longNumberInput(value: Int? = null, label: String, onValueChange: (Long?) ->
         },
         onFocusChanged = {
             if (!it) {
-                if (v.isEmpty()) {
-                    onUnfocused(0L)
+                v = if (v.isEmpty()) {
+                    onUnfocused(0L).toString()
                 } else if (v.toLongOrNull() == null) {
-                    onUnfocused(0L)
+                    onUnfocused(0L).toString()
                 } else {
-                    onUnfocused(v.toLong())
+                    onUnfocused(v.toLong()).toString()
                 }
             }
         }
