@@ -1,19 +1,49 @@
 package components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable
-fun circularLoader(loadingStatus: LoadingStatus) {//TODO: 完善功能
+fun myLoader(loadingStatus: LoadingStatus) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        when (loadingStatus.getLoadingState()) {
+            LoadingStatus.LoadingState.BeforeLoading -> {
+            }
+            LoadingStatus.LoadingState.Loading -> {
+                Text(loadingStatus.getMessage())
+                when (loadingStatus.getLoaderType()) {
+                    LoadingStatus.LoaderType.Circular -> CircularProgressIndicator()
+                    LoadingStatus.LoaderType.Linear -> LinearProgressIndicator(
+                        modifier = Modifier.size(200.dp, 4.dp),
+                        progress = loadingStatus.getProgress() / 100f
+                    )
+                }
+            }
+            LoadingStatus.LoadingState.Success -> {
+            }
+            LoadingStatus.LoadingState.Failed -> {
+            }
+        }
+    }
 }
 
 class LoadingStatus {
     private var loadingState by mutableStateOf(LoadingState.BeforeLoading)
     private var loaderType by mutableStateOf(LoaderType.Circular)
+
     //进度值，仅在Linear模式下有效，取值范围0-100
     private var progress by mutableStateOf(0)
     private var message by mutableStateOf("")
@@ -57,6 +87,26 @@ class LoadingStatus {
     fun message(message: String): LoadingStatus {
         this.message = message
         return this
+    }
+
+    @JvmName("getProgress1")
+    fun getProgress(): Int {
+        return progress
+    }
+
+    @JvmName("getMessage1")
+    fun getMessage(): String {
+        return message
+    }
+
+    @JvmName("getLoadingState1")
+    fun getLoadingState(): LoadingState {
+        return loadingState
+    }
+
+    @JvmName("getLoaderType1")
+    fun getLoaderType(): LoaderType {
+        return loaderType
     }
 
     enum class LoadingState {

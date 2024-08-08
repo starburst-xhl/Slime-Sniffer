@@ -17,7 +17,10 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import components.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import utils.Sniffer
 import java.util.*
 
 fun getResourceBundle(): ResourceBundle {
@@ -26,6 +29,7 @@ fun getResourceBundle(): ResourceBundle {
 }
 
 @Suppress("FunctionName")
+// src/main/kotlin/Main.kt
 @Composable
 @Preview
 fun App(bundle: ResourceBundle) {
@@ -35,6 +39,7 @@ fun App(bundle: ResourceBundle) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     var output by remember { mutableStateOf("") }
+    val loadingStatus = remember { LoadingStatus() }
 
     MaterialTheme {
         Scaffold(
@@ -93,9 +98,22 @@ fun App(bundle: ResourceBundle) {
                         value = zPosMax
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Button(onClick = {//TODO add action
+                    Button(onClick = {
                         output = ""
-                        output = "seed: $seed, xPosMax: $xPosMax, zPosMax: $zPosMax\n"
+                        loadingStatus.startLoading().circular()
+                        scope.launch {
+                            try {
+                                val sniffer = withContext(Dispatchers.Default) {
+                                    Sniffer(seed, xPosMax, zPosMax)
+                                }
+                                sniffer.sniff(xPosMax, zPosMax).also { output = it }
+                                loadingStatus.stopLoading()
+                            } catch (e: Exception) {
+                                output = "Error initializing sniffer: ${e.message}"
+                                loadingStatus.failLoading()
+                            }
+                            loadingStatus.reset()
+                        }
                     }) {
                         Text(bundle.getString("button.sniff"))
                     }
@@ -112,9 +130,8 @@ fun App(bundle: ResourceBundle) {
                     )
                 }
             }
+            myLoader(loadingStatus = loadingStatus)
         }
-
-
     }
 }
 
@@ -123,7 +140,7 @@ fun main() = application {
     val icon = useResource("app_icon.ico", ::loadImageBitmap)
     val state = rememberWindowState(
         position = WindowPosition(Alignment.Center),
-        width = 800.dp,
+        width = 1000.dp,
         height = 600.dp
     )
     Window(
