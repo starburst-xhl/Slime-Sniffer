@@ -37,82 +37,82 @@ fun App(bundle: ResourceBundle) {
     var output by remember { mutableStateOf("") }
 
     MaterialTheme {
-
         Scaffold(
             snackbarHost = {
                 SnackbarHost(hostState = snackbarHostState)
-                },
-            ) {
-                Row(modifier = Modifier.fillMaxSize()) {
-                    Column(
-                        modifier = Modifier.weight(1f).fillMaxHeight(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        longNumberInput(
-                            label = bundle.getString("label.seed"),
-                            onUnfocused = {
-                                seed = it
-                                return@longNumberInput seed
-                            },
-                            value = seed,
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        numberInput(
-                            label = bundle.getString("label.xPosMax"),
-                            onUnfocused = {
-                                if (it < 10) {
-                                    scope.launch {
-                                        snackbarHostState.showSnackbar(
-                                            message = bundle.getString("message.error.xPosMax"),
-                                            actionLabel = bundle.getString("button.dismiss")
-                                        )
-                                    }
-                                } else {
-                                    xPosMax = it
+            },
+        ) {
+            Row(modifier = Modifier.fillMaxSize()) {
+                Column(
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    longNumberInput(
+                        label = bundle.getString("label.seed"),
+                        onUnfocused = {
+                            seed = it
+                            return@longNumberInput seed
+                        },
+                        value = seed,
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    numberInput(
+                        label = bundle.getString("label.xPosMax"),
+                        onUnfocused = {
+                            if (it < 10) {
+                                scope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        message = bundle.getString("message.error.xPosMax"),
+                                        actionLabel = bundle.getString("button.dismiss")
+                                    )
                                 }
-                                return@numberInput xPosMax
-                            },
-                            value = xPosMax
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        numberInput(
-                            label = bundle.getString("label.zPosMax"),
-                            onUnfocused = {
-                                if (it < 10) {
-                                    scope.launch {
-                                        snackbarHostState.showSnackbar(
-                                            message = bundle.getString("message.error.zPosMax"),
-                                            actionLabel = bundle.getString("button.dismiss")
-                                        )
-                                    }
-                                } else {
-                                    zPosMax = it
+                            } else {
+                                xPosMax = it
+                            }
+                            return@numberInput xPosMax
+                        },
+                        value = xPosMax
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    numberInput(
+                        label = bundle.getString("label.zPosMax"),
+                        onUnfocused = {
+                            if (it < 10) {
+                                scope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        message = bundle.getString("message.error.zPosMax"),
+                                        actionLabel = bundle.getString("button.dismiss")
+                                    )
                                 }
-                                return@numberInput zPosMax
-                            },
-                            value = zPosMax
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Button(onClick = {//TODO add action
-                            output = ""
-                            output = "seed: $seed, xPosMax: $xPosMax, zPosMax: $zPosMax\n"
-                        }) {
-                            Text(bundle.getString("button.sniff"))
-                        }
-                    }
-                    Column(
-                        modifier = Modifier.weight(1f).fillMaxHeight(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = output,
-                            modifier = Modifier.padding(16.dp).fillMaxSize().background(Color.LightGray).verticalScroll(rememberScrollState())
-                        )
+                            } else {
+                                zPosMax = it
+                            }
+                            return@numberInput zPosMax
+                        },
+                        value = zPosMax
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(onClick = {//TODO add action
+                        output = ""
+                        output = "seed: $seed, xPosMax: $xPosMax, zPosMax: $zPosMax\n"
+                    }) {
+                        Text(bundle.getString("button.sniff"))
                     }
                 }
+                Column(
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = output,
+                        modifier = Modifier.padding(16.dp).fillMaxSize().background(Color.LightGray)
+                            .verticalScroll(rememberScrollState())
+                    )
+                }
             }
+        }
 
 
     }
@@ -126,7 +126,12 @@ fun main() = application {
         width = 800.dp,
         height = 600.dp
     )
-    Window(onCloseRequest = ::exitApplication, title = bundle.getString("app.title"), icon = BitmapPainter(icon), state = state) {
+    Window(
+        onCloseRequest = ::exitApplication,
+        title = bundle.getString("app.title"),
+        icon = BitmapPainter(icon),
+        state = state
+    ) {
         App(bundle)
     }
 }
