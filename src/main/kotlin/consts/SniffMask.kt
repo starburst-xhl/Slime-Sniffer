@@ -1,6 +1,6 @@
 package consts
 
-class SniffMask {
+object SniffMask {
     val circle: Array<Array<Boolean>> = arrayOf(
         arrayOf(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false),
         arrayOf(false,false,false,false,false,false,true ,true ,true ,true ,true ,false,false,false,false,false,false),
