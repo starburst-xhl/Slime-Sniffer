@@ -1,34 +1,73 @@
 package components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 
-
+@Preview
 @Composable
-fun circularLoader(loadingState: LoadingState) {
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        when (loadingState) {
-            LoadingState.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
-            LoadingState.Success -> {
-                Text(text = "加载成功", modifier = Modifier.align(Alignment.Center))
-            }
-            else -> {
-                Text(text = "加载失败", modifier = Modifier.align(Alignment.Center))
-            }
-        }
-    }
+fun circularLoader(loadingStatus: LoadingStatus) {//TODO: 完善功能
 }
 
-enum class LoadingState {
-    Loading,
-    Success,
-    Failed
+class LoadingStatus {
+    private var loadingState by mutableStateOf(LoadingState.BeforeLoading)
+    private var loaderType by mutableStateOf(LoaderType.Circular)
+    //进度值，仅在Linear模式下有效，取值范围0-100
+    private var progress by mutableStateOf(0)
+    private var message by mutableStateOf("")
+
+    fun startLoading(): LoadingStatus {
+        loadingState = LoadingState.Loading
+        return this
+    }
+
+    fun stopLoading(): LoadingStatus {
+        loadingState = LoadingState.Success
+        return this
+    }
+
+    fun failLoading(): LoadingStatus {
+        loadingState = LoadingState.Failed
+        return this
+    }
+
+    fun reset(): LoadingStatus {
+        loadingState = LoadingState.BeforeLoading
+        progress = 0
+        return this
+    }
+
+    fun circular(): LoadingStatus {
+        loaderType = LoaderType.Circular
+        return this
+    }
+
+    fun linear(): LoadingStatus {
+        loaderType = LoaderType.Linear
+        return this
+    }
+
+    fun progress(progress: Int): LoadingStatus {
+        this.progress = progress
+        return this
+    }
+
+    fun message(message: String): LoadingStatus {
+        this.message = message
+        return this
+    }
+
+    enum class LoadingState {
+        BeforeLoading,
+        Loading,
+        Success,
+        Failed
+    }
+
+    enum class LoaderType {
+        Circular,
+        Linear
+    }
 }

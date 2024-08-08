@@ -5,6 +5,9 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.res.loadImageBitmap
+import androidx.compose.ui.res.useResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -110,7 +113,8 @@ fun App(bundle: ResourceBundle) {
 
 fun main() = application {
     val bundle = getResourceBundle()
-    Window(onCloseRequest = ::exitApplication, title = bundle.getString("app.title")) {
+    val icon = useResource("app_icon.ico", ::loadImageBitmap)
+    Window(onCloseRequest = ::exitApplication, title = bundle.getString("app.title"), icon = BitmapPainter(icon)) {
         App(bundle)
     }
 }
