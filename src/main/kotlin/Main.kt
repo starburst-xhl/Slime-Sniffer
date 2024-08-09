@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.useResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
@@ -31,7 +32,6 @@ fun getResourceBundle(): ResourceBundle {
 }
 
 @Suppress("FunctionName")
-// src/main/kotlin/Main.kt
 @Composable
 @Preview
 fun App(bundle: ResourceBundle) {
@@ -51,7 +51,7 @@ fun App(bundle: ResourceBundle) {
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 Column(
-                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    modifier = Modifier.weight(3f).fillMaxHeight(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -115,6 +115,7 @@ fun App(bundle: ResourceBundle) {
                                 loadingStatus.failLoading()
                             }
                             loadingStatus.reset()
+
                         }
                     }) {
                         Icon(
@@ -127,14 +128,15 @@ fun App(bundle: ResourceBundle) {
                     }
                 }
                 Column(
-                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    modifier = Modifier.weight(5f).fillMaxHeight(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = output,
                         modifier = Modifier.padding(16.dp).fillMaxSize().background(Color.LightGray)
-                            .verticalScroll(rememberScrollState())
+                            .verticalScroll(rememberScrollState()),
+                        fontFamily = FontFamily.Monospace
                     )
                 }
             }
@@ -148,7 +150,7 @@ fun main() = application {
     val icon = useResource("app_icon.ico", ::loadImageBitmap)
     val state = rememberWindowState(
         position = WindowPosition(Alignment.Center),
-        width = 1000.dp,
+        width = 1100.dp,
         height = 600.dp
     )
     Window(

@@ -28,7 +28,6 @@ class Sniffer(seed: Long, xMax: Int, zMax: Int) {
         }
         ranking.sort()
         val sb = StringBuilder()
-        sb.append("-------------------Ranking of the regions-------------------\n")
         sb.append(String.format("   %8s%16s%16s%20s\n", "ranking", "xPosition", "zPosition", "total slime chunks"))
         for (i in 0 until 10) {
             sb.append(String.format("%8d", i + 1))
