@@ -1,17 +1,30 @@
 package components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.material.OutlinedTextField
+import androidx.compose.foundation.background
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 
 @Composable
 @Preview
 fun myTextField(label: String?, value: Any, onValueChange: (String) -> Unit, onFocusChanged: (Boolean) -> Unit = {}) {
-    OutlinedTextField(
-        label = { label?.let { Text(text = it) } },
+    TextField(
+        label = {
+            label?.let {
+                Text(
+                    text = it,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    modifier = Modifier.background(Color.Transparent)
+                )
+            }
+        },
         value = value.toString(),
         onValueChange = {
             onValueChange(it)
@@ -20,5 +33,13 @@ fun myTextField(label: String?, value: Any, onValueChange: (String) -> Unit, onF
         modifier = Modifier.onFocusChanged { focusState ->
             onFocusChanged(focusState.isFocused)
         },
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedLabelColor = MaterialTheme.colorScheme.outline,
+            unfocusedLabelColor = MaterialTheme.colorScheme.outlineVariant,
+            focusedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+            focusedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceBright,
+        )
     )
 }

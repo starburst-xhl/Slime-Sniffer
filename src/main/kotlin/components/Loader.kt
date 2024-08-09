@@ -26,7 +26,7 @@ fun myLoader(loadingStatus: LoadingStatus) {
             LoadingStatus.LoadingState.Loading -> {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = androidx.compose.ui.graphics.Color(0x33ffffff)
+                    color = androidx.compose.ui.graphics.Color(0x07ffffff)
                 ) {
                     Box(
                         contentAlignment = Alignment.Center,

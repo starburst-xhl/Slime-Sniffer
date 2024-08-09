@@ -1,13 +1,12 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.painterResource
@@ -43,103 +42,136 @@ fun App(bundle: ResourceBundle) {
     var output by remember { mutableStateOf("") }
     val loadingStatus = remember { LoadingStatus() }
 
-    MaterialTheme {
+    MaterialTheme(
+        colorScheme = darkColorScheme(),
+    ) {
         Scaffold(
             snackbarHost = {
                 SnackbarHost(hostState = snackbarHostState)
             },
         ) {
-            Row(modifier = Modifier.fillMaxSize()) {
-                Column(
-                    modifier = Modifier.weight(3f).fillMaxHeight(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    longNumberInput(
-                        label = bundle.getString("label.seed"),
-                        onUnfocused = {
-                            seed = it
-                            return@longNumberInput seed
-                        },
-                        value = seed,
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    numberInput(
-                        label = bundle.getString("label.xPosMax"),
-                        onUnfocused = {
-                            if (it < 10) {
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        message = bundle.getString("message.error.xPosMax"),
-                                        actionLabel = bundle.getString("button.dismiss")
+            Surface(
+                color = MaterialTheme.colorScheme.background,
+            ) {
+                Row(modifier = Modifier.fillMaxSize()) {
+                    Surface(
+                        modifier = Modifier.weight(3f).fillMaxHeight(),
+                        color = MaterialTheme.colorScheme.surfaceDim,
+                    ) {
+                        Surface(
+                            modifier = Modifier.padding(30.dp).shadow(10.dp, shape = MaterialTheme.shapes.large),
+                            shape = MaterialTheme.shapes.large,
+                            color = MaterialTheme.colorScheme.surface,
+                        ) {
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                longNumberInput(
+                                    label = bundle.getString("label.seed"),
+                                    onUnfocused = {
+                                        seed = it
+                                        return@longNumberInput seed
+                                    },
+                                    value = seed,
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                                numberInput(
+                                    label = bundle.getString("label.xPosMax"),
+                                    onUnfocused = {
+                                        if (it < 10) {
+                                            scope.launch {
+                                                snackbarHostState.showSnackbar(
+                                                    message = bundle.getString("message.error.xPosMax"),
+                                                    actionLabel = bundle.getString("button.dismiss")
+                                                )
+                                            }
+                                        } else {
+                                            xPosMax = it
+                                        }
+                                        return@numberInput xPosMax
+                                    },
+                                    value = xPosMax
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                                numberInput(
+                                    label = bundle.getString("label.zPosMax"),
+                                    onUnfocused = {
+                                        if (it < 10) {
+                                            scope.launch {
+                                                snackbarHostState.showSnackbar(
+                                                    message = bundle.getString("message.error.zPosMax"),
+                                                    actionLabel = bundle.getString("button.dismiss")
+                                                )
+                                            }
+                                        } else {
+                                            zPosMax = it
+                                        }
+                                        return@numberInput zPosMax
+                                    },
+                                    value = zPosMax
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Button(
+                                    onClick = {
+                                        output = ""
+                                        loadingStatus.startLoading().circular()
+                                        CoroutineScope(Dispatchers.Default).launch {
+                                            try {
+                                                val sniffer = withContext(Dispatchers.Default) {
+                                                    Sniffer(seed, xPosMax, zPosMax)
+                                                }
+                                                sniffer.sniff(xPosMax, zPosMax).also { output = it }
+                                                loadingStatus.stopLoading()
+                                            } catch (e: Exception) {
+                                                output = "Error initializing sniffer: ${e.message}"
+                                                loadingStatus.failLoading()
+                                            }
+                                            loadingStatus.reset()
+                                        }
+                                    },
+                                    colors = ButtonDefaults.buttonColors()
+                                ) {
+                                    Icon(
+                                        painter = painterResource("hexagram.svg"),
+                                        contentDescription = bundle.getString("button.sniff"),
+                                        modifier = Modifier.size(24.dp)
                                     )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(bundle.getString("button.sniff"))
                                 }
-                            } else {
-                                xPosMax = it
                             }
-                            return@numberInput xPosMax
-                        },
-                        value = xPosMax
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    numberInput(
-                        label = bundle.getString("label.zPosMax"),
-                        onUnfocused = {
-                            if (it < 10) {
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        message = bundle.getString("message.error.zPosMax"),
-                                        actionLabel = bundle.getString("button.dismiss")
-                                    )
-                                }
-                            } else {
-                                zPosMax = it
-                            }
-                            return@numberInput zPosMax
-                        },
-                        value = zPosMax
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(onClick = {
-                        output = ""
-                        loadingStatus.startLoading().circular()
-                        CoroutineScope(Dispatchers.Default).launch {
-                            try {
-                                val sniffer = withContext(Dispatchers.Default) {
-                                    Sniffer(seed, xPosMax, zPosMax)
-                                }
-                                sniffer.sniff(xPosMax, zPosMax).also { output = it }
-                                loadingStatus.stopLoading()
-                            } catch (e: Exception) {
-                                output = "Error initializing sniffer: ${e.message}"
-                                loadingStatus.failLoading()
-                            }
-                            loadingStatus.reset()
-
                         }
-                    }) {
-                        Icon(
-                            painter = painterResource("hexagram.svg"),
-                            contentDescription = bundle.getString("button.sniff"),
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(bundle.getString("button.sniff"))
                     }
-                }
-                Column(
-                    modifier = Modifier.weight(5f).fillMaxHeight(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = output,
-                        modifier = Modifier.padding(16.dp).fillMaxSize().background(Color.LightGray)
-                            .verticalScroll(rememberScrollState()),
-                        fontFamily = FontFamily.Monospace
-                    )
+                    Surface(
+                        modifier = Modifier.weight(5f).fillMaxHeight(),
+                        color = MaterialTheme.colorScheme.surfaceDim,
+                    ) {
+                        Surface(
+                            modifier = Modifier.padding(30.dp, 80.dp).shadow(
+                                10.dp,
+                                shape = MaterialTheme.shapes.large,
+                            ),
+                            shape = MaterialTheme.shapes.large,
+                            color = MaterialTheme.colorScheme.surface,
+                        ) {
+                            Column(
+                                modifier = Modifier.weight(5f).fillMaxHeight(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = output,
+                                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                                    fontFamily = FontFamily.Monospace
+                                )
+                            }
+                        }
+                    }
+
                 }
             }
+
             myLoader(loadingStatus = loadingStatus)
         }
     }
