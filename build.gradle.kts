@@ -21,7 +21,6 @@ dependencies {
     // (in a separate module for demo project and in testMain).
     // With compose.desktop.common you will also lose @Preview functionality
     implementation(compose.desktop.currentOs)
-    implementation("com.guardsquare:proguard-gradle:7.4.2")
 }
 
 compose.desktop {
@@ -32,6 +31,14 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "SlimeChunkSniffer"
             packageVersion = "2.0.0"
+
+            windows {
+                iconFile.set(project.file("src/main/resources/app_icon.ico"))
+            }
+
+            linux {
+                iconFile.set(project.file("src/main/resources/app_icon.png"))
+            }
         }
     }
 }
