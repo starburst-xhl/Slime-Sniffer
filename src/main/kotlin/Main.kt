@@ -18,6 +18,7 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import components.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -102,7 +103,7 @@ fun App(bundle: ResourceBundle) {
                     Button(onClick = {
                         output = ""
                         loadingStatus.startLoading().circular()
-                        scope.launch {
+                        CoroutineScope(Dispatchers.Default).launch {
                             try {
                                 val sniffer = withContext(Dispatchers.Default) {
                                     Sniffer(seed, xPosMax, zPosMax)
