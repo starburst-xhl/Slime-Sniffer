@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,14 +24,27 @@ fun myLoader(loadingStatus: LoadingStatus) {
             LoadingStatus.LoadingState.BeforeLoading -> {
             }
             LoadingStatus.LoadingState.Loading -> {
-                Text(loadingStatus.getMessage())
-                when (loadingStatus.getLoaderType()) {
-                    LoadingStatus.LoaderType.Circular -> CircularProgressIndicator()
-                    LoadingStatus.LoaderType.Linear -> LinearProgressIndicator(
-                        modifier = Modifier.size(200.dp, 4.dp),
-                        progress = loadingStatus.getProgress() / 100f
-                    )
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = androidx.compose.ui.graphics.Color(0x33ffffff)
+                ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(loadingStatus.getMessage())
+                        when (loadingStatus.getLoaderType()) {
+                            LoadingStatus.LoaderType.Circular -> CircularProgressIndicator(
+                                modifier = Modifier.size(50.dp)
+                            )
+                            LoadingStatus.LoaderType.Linear -> LinearProgressIndicator(
+                                modifier = Modifier.size(200.dp, 4.dp),
+                                progress = loadingStatus.getProgress() / 100f
+                            )
+                        }
+                    }
+
                 }
+
             }
             LoadingStatus.LoadingState.Success -> {
             }
