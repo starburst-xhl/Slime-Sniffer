@@ -31,7 +31,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "SlimeChunkSniffer"
-            packageVersion = "2.0.0"
+            packageVersion = "2.1.1"
 
             windows {
                 iconFile.set(project.file("src/main/resources/app_icon.ico"))
