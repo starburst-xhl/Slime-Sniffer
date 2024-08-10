@@ -18,6 +18,7 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import components.*
+import consts.Routes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,14 +42,23 @@ fun App(bundle: ResourceBundle) {
     val snackbarHostState = remember { SnackbarHostState() }
     var output by remember { mutableStateOf("") }
     val loadingStatus = remember { LoadingStatus() }
+    var selectedItem by remember { mutableStateOf(0) }
+    val routes = Routes
 
     MaterialTheme(
-        colorScheme = lightColorScheme(),
+        colorScheme = darkColorScheme(),
     ) {
         Scaffold(
             snackbarHost = {
                 SnackbarHost(hostState = snackbarHostState)
             },
+            bottomBar = {
+                myNavigationBar(
+                    items = routes.routes,
+                    selectedItem = selectedItem,
+                    onClick = { selectedItem = it },
+                )
+            }
         ) {
             Surface(
                 color = MaterialTheme.colorScheme.background,
@@ -56,12 +66,12 @@ fun App(bundle: ResourceBundle) {
                 Row(modifier = Modifier.fillMaxSize()) {
                     Surface(
                         modifier = Modifier.weight(3f).fillMaxHeight(),
-                        color = MaterialTheme.colorScheme.surfaceDim,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                     ) {
                         Surface(
                             modifier = Modifier.padding(30.dp).shadow(10.dp, shape = MaterialTheme.shapes.large),
                             shape = MaterialTheme.shapes.large,
-                            color = MaterialTheme.colorScheme.surface,
+                            color = MaterialTheme.colorScheme.surfaceContainerHigh,
                         ) {
                             Column(
                                 verticalArrangement = Arrangement.Center,
@@ -145,15 +155,12 @@ fun App(bundle: ResourceBundle) {
                     }
                     Surface(
                         modifier = Modifier.weight(5f).fillMaxHeight(),
-                        color = MaterialTheme.colorScheme.surfaceDim,
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                     ) {
                         Surface(
-                            modifier = Modifier.padding(30.dp, 80.dp).shadow(
-                                10.dp,
-                                shape = MaterialTheme.shapes.large,
-                            ),
+                            modifier = Modifier.padding(30.dp, 80.dp).shadow(10.dp, shape = MaterialTheme.shapes.large),
                             shape = MaterialTheme.shapes.large,
-                            color = MaterialTheme.colorScheme.surface,
+                            color = MaterialTheme.colorScheme.surfaceContainerHigh,
                         ) {
                             Column(
                                 modifier = Modifier.weight(5f).fillMaxHeight(),

@@ -2,7 +2,6 @@ package components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -36,10 +35,10 @@ fun myTextField(label: String?, value: Any, onValueChange: (String) -> Unit, onF
         colors = OutlinedTextFieldDefaults.colors(
             focusedLabelColor = MaterialTheme.colorScheme.outline,
             unfocusedLabelColor = MaterialTheme.colorScheme.outlineVariant,
-            focusedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
+            focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
             unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-            focusedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceBright,
+            focusedContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
         )
     )
 }
