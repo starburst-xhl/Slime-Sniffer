@@ -43,7 +43,7 @@ fun App(bundle: ResourceBundle) {
     val loadingStatus = remember { LoadingStatus() }
 
     MaterialTheme(
-        colorScheme = darkColorScheme(),
+        colorScheme = lightColorScheme(),
     ) {
         Scaffold(
             snackbarHost = {
