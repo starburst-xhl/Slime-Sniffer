@@ -62,6 +62,7 @@ fun App(bundle: ResourceBundle) {
         ) {
             Surface(
                 color = MaterialTheme.colorScheme.background,
+                modifier = Modifier.fillMaxSize().padding(bottom = 72.dp)
             ) {
                 Row(modifier = Modifier.fillMaxSize()) {
                     Surface(
@@ -190,7 +191,7 @@ fun main() = application {
     val state = rememberWindowState(
         position = WindowPosition(Alignment.Center),
         width = 1100.dp,
-        height = 600.dp
+        height = 700.dp
     )
     Window(
         onCloseRequest = ::exitApplication,
