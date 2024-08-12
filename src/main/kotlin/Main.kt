@@ -18,6 +18,7 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import components.*
+import consts.Routes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,6 +42,8 @@ fun App(bundle: ResourceBundle) {
     val snackbarHostState = remember { SnackbarHostState() }
     var output by remember { mutableStateOf("") }
     val loadingStatus = remember { LoadingStatus() }
+    var selectedItem by remember { mutableStateOf(0) }
+    val routes = Routes
 
     MaterialTheme(
         colorScheme = darkColorScheme(),
@@ -49,10 +52,17 @@ fun App(bundle: ResourceBundle) {
             snackbarHost = {
                 SnackbarHost(hostState = snackbarHostState)
             },
+            bottomBar = {
+                myNavigationBar(
+                    items = routes.routes,
+                    selectedItem = selectedItem,
+                    onClick = { selectedItem = it },
+                )
+            }
         ) {
             Surface(
                 color = MaterialTheme.colorScheme.background,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().padding(bottom = 72.dp)
             ) {
                 Row(modifier = Modifier.fillMaxSize()) {
                     Surface(
@@ -181,7 +191,7 @@ fun main() = application {
     val state = rememberWindowState(
         position = WindowPosition(Alignment.Center),
         width = 1100.dp,
-        height = 600.dp
+        height = 700.dp
     )
     Window(
         onCloseRequest = ::exitApplication,
