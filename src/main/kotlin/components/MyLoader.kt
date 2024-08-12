@@ -1,8 +1,5 @@
 package components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +7,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,13 +18,12 @@ import androidx.compose.ui.unit.dp
 @Preview
 @Composable
 fun myLoader(loadingStatus: LoadingStatus) {
-    var loaderVisibility by mutableStateOf(false)
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         when (loadingStatus.getLoadingState()) {
             LoadingStatus.LoadingState.BeforeLoading -> {
-                loaderVisibility = false
             }
+
             LoadingStatus.LoadingState.Loading -> {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -37,32 +32,26 @@ fun myLoader(loadingStatus: LoadingStatus) {
                     Box(
                         contentAlignment = Alignment.Center,
                     ) {
-                        AnimatedVisibility(
-                            visible = loaderVisibility,
-                            enter = slideInVertically(initialOffsetY = { it }),
-                            exit = slideOutVertically(targetOffsetY = { it })
-                        ) {
-                            when (loadingStatus.getLoaderType()) {
-                                LoadingStatus.LoaderType.Circular -> CircularProgressIndicator(
-                                    modifier = Modifier.size(50.dp)
-                                )
-                                LoadingStatus.LoaderType.Linear -> LinearProgressIndicator(
-                                    progress = {
-                                        loadingStatus.getProgress() / 100f
-                                    },
-                                    modifier = Modifier.size(200.dp, 4.dp),
-                                )
-                            }
-                            loaderVisibility = true
+                        when (loadingStatus.getLoaderType()) {
+                            LoadingStatus.LoaderType.Circular -> CircularProgressIndicator(
+                                modifier = Modifier.size(50.dp)
+                            )
+                            LoadingStatus.LoaderType.Linear -> LinearProgressIndicator(
+                                progress = {
+                                    loadingStatus.getProgress() / 100f
+                                },
+                                modifier = Modifier.size(200.dp, 4.dp),
+                            )
                         }
+
                     }
                 }
             }
+
             LoadingStatus.LoadingState.Success -> {
-                loaderVisibility = false
             }
+
             LoadingStatus.LoadingState.Failed -> {
-                loaderVisibility = false
             }
         }
     }
