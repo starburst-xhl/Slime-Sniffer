@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "icu.xhl.slimechunksniffer"
-version = "2.0"
+version = "2.2"
 
 repositories {
     mavenCentral()
@@ -31,7 +31,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "SlimeChunkSniffer"
-            packageVersion = "2.1.1"
+            packageVersion = "2.2.0"
 
             windows {
                 iconFile.set(project.file("src/main/resources/app_icon.ico"))
