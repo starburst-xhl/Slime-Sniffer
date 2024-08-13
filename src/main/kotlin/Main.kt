@@ -18,6 +18,7 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import components.*
+import consts.SniffMasks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,6 +42,8 @@ fun App(bundle: ResourceBundle) {
     val snackbarHostState = remember { SnackbarHostState() }
     var output by remember { mutableStateOf("") }
     val loadingStatus = remember { LoadingStatus() }
+    val sniffMasks = remember { SniffMasks.sniffMasks }
+    var option by remember { mutableStateOf("") }
 
     MaterialTheme(
         colorScheme = darkColorScheme(),
@@ -113,6 +116,15 @@ fun App(bundle: ResourceBundle) {
                                     value = zPosMax
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
+                                mySelector(
+                                    bundle = bundle,
+                                    options = sniffMasks.keys.toTypedArray(),
+                                    titleKey = "label.sniffMask",
+                                    onValueChange = {
+                                        option = it
+                                    },
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
                                 Button(
                                     onClick = {
                                         output = ""
@@ -120,7 +132,7 @@ fun App(bundle: ResourceBundle) {
                                         CoroutineScope(Dispatchers.Default).launch {
                                             try {
                                                 val sniffer = withContext(Dispatchers.Default) {
-                                                    Sniffer(seed, xPosMax, zPosMax)
+                                                    Sniffer(seed, xPosMax, zPosMax, sniffMasks[option]!!)
                                                 }
                                                 sniffer.sniff(xPosMax, zPosMax).also { output = it }
                                                 loadingStatus.stopLoading()

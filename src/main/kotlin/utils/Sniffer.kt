@@ -1,6 +1,6 @@
 package utils
 
-class Sniffer(seed: Long, xMax: Int, zMax: Int) {
+class Sniffer(seed: Long, xMax: Int, zMax: Int, private val mask: Array<Array<Boolean>>) {
     private val chunkList = SlimeChunkList(-xMax, xMax, -zMax, zMax)
     private val ranking = mutableListOf<Ranking>()
 
@@ -12,13 +12,17 @@ class Sniffer(seed: Long, xMax: Int, zMax: Int) {
         return chunkList.getChunk(x, z)
     }
 
+    private fun isInMask(x: Int, z: Int): Boolean {
+        return mask[x + 8][z + 8]
+    }
+
     fun sniff(xPosMax: Int, zPosMax: Int): String {
         for (i in -xPosMax + 8..xPosMax - 8) {
             for (j in -zPosMax + 8..zPosMax - 8) {
                 var sum = 0
                 for (k in -8..8) {
                     for (l in -8..8) {
-                        if (isSlimeChunk(i + k, j + l) == true) {
+                        if (isSlimeChunk(i + k, j + l) == true && isInMask(k, l)) {
                             sum++
                         }
                     }

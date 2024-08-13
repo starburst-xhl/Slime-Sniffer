@@ -1,8 +1,8 @@
 package consts
 
 object ResLicenses {
-    class ResLicense(val resName: String, val url: String, val license: License)
-    class License(val name: String, val url: String)
+    data class ResLicense(val resName: String, val url: String, val license: License)
+    data class License(val name: String, val url: String)
 
     val licenses = listOf(
         ResLicense(
