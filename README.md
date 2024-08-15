@@ -1,4 +1,4 @@
-# slime-chunk-finder-for-xhl
+# Slime Sniffer
 
 **English** | [中文](https://github.com/starburst-xhl/slime-chunk-finder-for-xhl/blob/main/README_zh-cn.md)
 
