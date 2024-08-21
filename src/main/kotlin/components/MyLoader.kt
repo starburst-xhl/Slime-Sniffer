@@ -1,5 +1,9 @@
 package components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,51 +11,50 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable
 fun myLoader(loadingStatus: LoadingStatus) {
+    var animationStatus by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        when (loadingStatus.getLoadingState()) {
-            LoadingStatus.LoadingState.BeforeLoading -> {
-            }
-
-            LoadingStatus.LoadingState.Loading -> {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = androidx.compose.ui.graphics.Color(0x07ffffff)
-                ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
+    LaunchedEffect(loadingStatus.getLoadingState()) {
+        animationStatus = loadingStatus.getLoadingState() == LoadingStatus.LoadingState.Loading
+    }
+    AnimatedVisibility(
+        visible = animationStatus,
+        enter = fadeIn(animationSpec = tween(500)),
+        exit = fadeOut(animationSpec = tween(300)),
+    ) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            when (loadingStatus.getLoadingState()) {
+                LoadingStatus.LoadingState.BeforeLoading,
+                LoadingStatus.LoadingState.Success,
+                LoadingStatus.LoadingState.Failed,
+                LoadingStatus.LoadingState.Loading -> {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(), color = Color(0x10ffffff)
                     ) {
-                        when (loadingStatus.getLoaderType()) {
-                            LoadingStatus.LoaderType.Circular -> CircularProgressIndicator(
-                                modifier = Modifier.size(50.dp)
-                            )
-                            LoadingStatus.LoaderType.Linear -> LinearProgressIndicator(
-                                progress = {
-                                    loadingStatus.getProgress() / 100f
-                                },
-                                modifier = Modifier.size(200.dp, 4.dp),
-                            )
-                        }
+                        Box(
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            when (loadingStatus.getLoaderType()) {
+                                LoadingStatus.LoaderType.Circular -> CircularProgressIndicator(
+                                    modifier = Modifier.size(50.dp)
+                                )
 
+                                LoadingStatus.LoaderType.Linear -> LinearProgressIndicator(
+                                    progress = { loadingStatus.getProgress() / 100f },
+                                    modifier = Modifier.size(200.dp, 4.dp),
+                                )
+                            }
+                        }
                     }
                 }
-            }
-
-            LoadingStatus.LoadingState.Success -> {
-            }
-
-            LoadingStatus.LoadingState.Failed -> {
             }
         }
     }
@@ -127,14 +130,10 @@ class LoadingStatus {
     }
 
     enum class LoadingState {
-        BeforeLoading,
-        Loading,
-        Success,
-        Failed
+        BeforeLoading, Loading, Success, Failed
     }
 
     enum class LoaderType {
-        Circular,
-        Linear
+        Circular, Linear
     }
 }
