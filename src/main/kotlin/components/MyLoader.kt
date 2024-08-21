@@ -34,12 +34,10 @@ fun myLoader(loadingStatus: LoadingStatus) {
             when (loadingStatus.getLoadingState()) {
                 LoadingStatus.LoadingState.BeforeLoading,
                 LoadingStatus.LoadingState.Success,
-                LoadingStatus.LoadingState.Failed -> Unit
-
+                LoadingStatus.LoadingState.Failed,
                 LoadingStatus.LoadingState.Loading -> {
                     Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = Color(0x10ffffff)
+                        modifier = Modifier.fillMaxSize(), color = Color(0x10ffffff)
                     ) {
                         Box(
                             contentAlignment = Alignment.Center,
@@ -55,7 +53,6 @@ fun myLoader(loadingStatus: LoadingStatus) {
                                 )
                             }
                         }
-
                     }
                 }
             }
@@ -133,14 +130,10 @@ class LoadingStatus {
     }
 
     enum class LoadingState {
-        BeforeLoading,
-        Loading,
-        Success,
-        Failed
+        BeforeLoading, Loading, Success, Failed
     }
 
     enum class LoaderType {
-        Circular,
-        Linear
+        Circular, Linear
     }
 }
